@@ -10,8 +10,6 @@ import java.util.Properties;
 
 /**
  * 读取配置
- * @author 竹
- * date 2017/11/5
  */
 public class PageConfig {
     private static Logger logger = Logger.getLogger(PageConfig.class);
