@@ -1,5 +1,6 @@
 package com.applycation.crawler4j;
 
+import com.applycation.client.CrawlClient;
 import edu.uci.ics.crawler4j.crawler.Page;
 import edu.uci.ics.crawler4j.crawler.WebCrawler;
 import edu.uci.ics.crawler4j.parser.HtmlParseData;
@@ -72,7 +73,7 @@ public class MyCrawler extends WebCrawler {
                         logger.info(url+"#"+ip+":"+port);
                         String area = tds.get(2).text();
                         System.out.println("#"+ip+":"+port+"area"+area);
-//                        CrawlClient.proxyPool.add(ip, port);
+                        CrawlClient.proxyPool.add(ip, port);
                         //RedisOnMessageUtil.Push(area, ip, port);
                     }
                 }

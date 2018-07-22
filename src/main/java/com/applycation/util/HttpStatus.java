@@ -1,8 +1,6 @@
 package com.applycation.util;
 
-/**
- * Created by gaorui on 16/12/26.
- */
+
 public enum HttpStatus {
     SC_CONTINUE(100),
     SC_SWITCHING_PROTOCOLS(101),
