@@ -11,7 +11,6 @@ import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.DelayQueue;
 
-
 public class ProxyPool {
 
     private static Logger logger = Logger.getLogger(CrawlerController.class);

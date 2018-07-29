@@ -11,7 +11,9 @@ import org.quartz.JobExecutionContext;
 import org.quartz.JobExecutionException;
 import org.quartz.StatefulJob;
 
-
+/**
+ * 这个类将爬虫的启动信息，封装成为了一个定时任务
+ * */
 @DisallowConcurrentExecution
 public class CrawlClient implements StatefulJob {
 

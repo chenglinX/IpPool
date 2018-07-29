@@ -14,7 +14,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static com.applycation.util.PageConfig.list;
-
+/**
+ * 这个类对爬虫信息进行封装，并启动了所有的爬虫
+ * */
 public class CrawlerController {
     private static Logger logger = Logger.getLogger(CrawlerController.class);
     public static void fetchProxyIp() {

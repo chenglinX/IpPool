@@ -64,7 +64,7 @@ public class MyCrawler extends WebCrawler {
             try {
                 Document doc = Jsoup.parse(html);
                 if (page1.equals(url)) {
-                    for (int i = 1; i < 9; i++) {
+                    for (int i = 1; i < 5; i++) {
                         Elements trs = doc.select("table").get(2).select("tr");
                         Elements tds = trs.get(i).select("td");
 
