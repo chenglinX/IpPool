@@ -1,6 +1,7 @@
 package com.applycation.crawler4j;
 
 import com.applycation.client.CrawlClient;
+import com.applycation.util.RedisOnMessageUtil;
 import edu.uci.ics.crawler4j.crawler.Page;
 import edu.uci.ics.crawler4j.crawler.WebCrawler;
 import edu.uci.ics.crawler4j.parser.HtmlParseData;
@@ -31,7 +32,6 @@ public class MyCrawler extends WebCrawler {
             + "|png|mp3|mp3|zip|gz))$");
 
     private static String page1 = "http://www.66ip.cn/";
-   // private static String page2 = "http://www.mayidaili.com/free";
 
 
     /**
@@ -42,7 +42,8 @@ public class MyCrawler extends WebCrawler {
     @Override
     public boolean shouldVisit(Page referringPage, WebURL url) {
         String href = url.getURL().toLowerCase();
-        return !FILTERS.matcher(href).matches();
+        //return !FILTERS.matcher(href).matches() && href.startsWith("http://www.66ip.cn/");
+        return false;
     }
 
     /**
@@ -58,13 +59,13 @@ public class MyCrawler extends WebCrawler {
             HtmlParseData htmlParseData = (HtmlParseData) page.getParseData();
             String text = htmlParseData.getText();
             String html = htmlParseData.getHtml();
-            Set<WebURL> links = htmlParseData.getOutgoingUrls();
-
+            System.out.println(html);
 
             try {
                 Document doc = Jsoup.parse(html);
-                if (page1.equals(url)) {
-                    for (int i = 1; i < 5; i++) {
+ //               if (page1.equals(url)) {
+                try {
+                    for (int i = 1; i < 13; i++) {
                         Elements trs = doc.select("table").get(2).select("tr");
                         Elements tds = trs.get(i).select("td");
 
@@ -74,9 +75,13 @@ public class MyCrawler extends WebCrawler {
                         String area = tds.get(2).text();
                         System.out.println("#"+ip+":"+port+"area"+area);
                         CrawlClient.proxyPool.add(ip, port);
-                        //RedisOnMessageUtil.Push(area, ip, port);
+                        //  RedisOnMessageUtil.Push(area, ip, port);
                     }
+                }catch (IndexOutOfBoundsException e){
+                    logger.info("this page don't have 12 ips");
                 }
+
+ //               }
 //                else if (page2.equals(url)) {
 //                    for (int i = 1; i < 50; i++) {
 //                        Elements trs = doc.select("table").select("tr");

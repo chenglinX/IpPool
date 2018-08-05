@@ -9,9 +9,7 @@ import java.net.URLConnection;
 import java.util.List;
 import java.util.Map;
 
-/**
- * Created by gaorui on 17/4/15.
- */
+
 public class HttpUtil {
     private static Logger logger = Logger.getLogger(HttpUtil.class);
 

@@ -31,6 +31,9 @@ public class CrawlClient implements StatefulJob {
         }
         logger.info("#####第" + count + "次开始爬取#####");
         CrawlerController.fetchProxyIp();
+
+        ProxyPool p = CrawlClient.proxyPool;
+        System.out.println("chenglinx》》》》》》"+p.getIdleNum());
         logger.info("#####爬取完毕#####");
     }
 }

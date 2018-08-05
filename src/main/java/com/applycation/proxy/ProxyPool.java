@@ -2,6 +2,7 @@ package com.applycation.proxy;
 
 import com.applycation.crawler4j.CrawlerController;
 import com.applycation.crawler4j.CrawlerController;
+import com.applycation.redis.JedisUtils;
 import com.applycation.util.HttpStatus;
 import org.apache.log4j.Logger;
 
@@ -95,7 +96,7 @@ public class ProxyPool {
             //todo 能力有限,后续估计也加不上了 0.0 if (ScanningPool.b) ScanningPool.scanningProxyIp(httpProxy);//扫描ip段
             //持久化到磁盘,提供代理ip服务
             try {
-              //  JedisUtils.setProxyIp(httpProxy);//连续成功超过 5次，移除代理池队列,存储到redis
+                JedisUtils.setProxyIp(httpProxy);//连续成功超过 5次，移除代理池队列,存储到redis
             }catch (Exception e){
                 e.printStackTrace();
             }

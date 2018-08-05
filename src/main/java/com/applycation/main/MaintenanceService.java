@@ -21,6 +21,9 @@ public class MaintenanceService implements StatefulJob {
     ProxyPool proxyPool = null;
     private static int count = 0;
     private Integer countLock = 2;
+    private static int COREPOOLSIZE = 20;
+    private static int TASKFORIPNUM = 10;
+
 
     @Override
     public void execute(JobExecutionContext jobExecutionContext) throws JobExecutionException {
@@ -32,18 +35,15 @@ public class MaintenanceService implements StatefulJob {
         logger.info("爬虫ip池第" + count + "次开始测试");
         int idleNum = proxyPool.getIdleNum();
         logger.info("idleNum:" + idleNum);
-        int size = idleNum  / 2;
-        int z = 0;
-        if (size != 0) {
-            z = idleNum / size;
-        }
-        countLock = size;
+        int taskNum= idleNum  / TASKFORIPNUM;//size相当于是将这些ip分成多少组。
+
+        countLock = taskNum;
         CountDownLatch countDownLatch = new CountDownLatch(countLock);
 
-        ThreadPoolExecutor executor= Executor.newMyexecutor(size);
+        ThreadPoolExecutor executor= Executor.newMyexecutor(COREPOOLSIZE);
         executor.allowCoreThreadTimeOut(true);
-        for (int j = 0; j < size; j++) {
-            A a = new A(j, z,countDownLatch);
+        for (int j = 0; j < taskNum; j++) {
+            A a = new A(j,countDownLatch);
             executor.execute(a);
             logger.info("线程池中现在的线程数目是："+executor.getPoolSize()+
                     ",  队列中正在等待执行的任务数量为："+
@@ -64,19 +64,17 @@ public class MaintenanceService implements StatefulJob {
     class A implements Runnable {
 
         int j;
-        int z;
         CountDownLatch latch;
-        public A(int j, int z,CountDownLatch latch) {
+        public A(int j,CountDownLatch latch) {
 
             this.j = j;
-            this.z = z;
             this.latch = latch;
         }
 
         @Override
         public void run() {
-            logger.info("多线程分片跑区间:" + (j * z + 1) + "-" + ((j + 1) * z));
-            for (int i = j * z + 1; i < (j + 1) * z; i++) {
+            logger.info("多线程分片跑区间:" + j*TASKFORIPNUM+ "-" + (j*TASKFORIPNUM+TASKFORIPNUM)+"启动>>>>>");
+            for (int i = 0; i < TASKFORIPNUM; i++) {
                 HttpProxy httpProxy = proxyPool.borrow();
                 HttpStatus code = ProxyIpCheck.Check(httpProxy.getProxy());
                 logger.info("name:" + Thread.currentThread().getName() + httpProxy.getProxy() + ":" + code);

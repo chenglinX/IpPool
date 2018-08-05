@@ -19,11 +19,12 @@ import static com.applycation.util.PageConfig.list;
  * */
 public class CrawlerController {
     private static Logger logger = Logger.getLogger(CrawlerController.class);
+    private static int pageSign = 2;
     public static void fetchProxyIp() {
         //chenglinx 当前文件的目录 nio中的用法；定义爬虫数据存储位置
         String crawlStorageFolder = Paths.get(".").toString();
         // 定义7个爬虫，也就是7个线程
-        int numberOfCrawlers = 1;
+        int numberOfCrawlers = 10;
 
         //chenglinx 从配置文件中的到需要爬取的网站的个数
         int size = list.size();
@@ -35,6 +36,7 @@ public class CrawlerController {
                 Crawl c = new Crawl();
                 //chengx crawler4j 中的每个爬虫有一个Config；定义爬虫配置
                 CrawlConfig config = new CrawlConfig();
+                config.setMaxDepthOfCrawling(0);
                 config.setMaxDepthOfCrawling(0);
                 config.setPolitenessDelay(0);
                 // 设置爬虫文件存储位置
@@ -55,7 +57,11 @@ public class CrawlerController {
                 /**
                  * 配置爬虫种子页面，就是规定的从哪里开始爬，可以配置多个种子页面
                  */
-                controller.addSeed(list.get(i));
+                for (int j = 0;j<5;j++){
+                    String pageUrl = list.get(i)+pageSign++ +".html";
+                    controller.addSeed(pageUrl);
+                    System.out.println("爬取的也是"+pageUrl);
+                }
                 c.setCrawlController(controller);
                 c.setCrawlName("Controller"+i);
                 crawlList.add(c);

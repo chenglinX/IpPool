@@ -4,9 +4,7 @@ import org.apache.log4j.Logger;
 
 import java.util.concurrent.*;
 
-/**
- * Created by 杨凯文 on 2017/11/17 0017.
- */
+
 public class Executor{
     private static Logger logger = Logger.getLogger(Executor.class);
     private static ThreadPoolExecutor threadPool = null;
